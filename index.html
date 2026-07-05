@@ -1,218 +1,79 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KeyForge • Key System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <title>Key System - Roblox Executor</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-    :root {
-      --primary: #00ff88;
-      --bg: #0a0a0a;
-      --card: rgba(255, 255, 255, 0.05);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a, #1a0033);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-    }
-
-    .container {
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 40px 50px;
-      width: 100%;
-      max-width: 520px;
-      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%);
-      z-index: -1;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      background: linear-gradient(90deg, #00ff88, #00ccff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: #a0a0a0;
-      margin-bottom: 35px;
-      font-size: 1.1rem;
-    }
-
-    .task {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 20px;
-      margin: 18px 0;
-      transition: all 0.3s ease;
-    }
-
-    .task:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-    }
-
-    button {
-      background: linear-gradient(90deg, #00ff88, #00cc66);
-      color: black;
-      border: none;
-      padding: 16px 40px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      margin-top: 10px;
-      box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 30px rgba(0, 255, 136, 0.4);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    #keyResult {
-      margin-top: 30px;
-      padding: 25px;
-      background: rgba(0, 255, 136, 0.1);
-      border: 1px solid var(--primary);
-      border-radius: 16px;
-      display: none;
-    }
-
-    .key-code {
-      font-family: monospace;
-      font-size: 1.6rem;
-      letter-spacing: 4px;
-      background: #000;
-      padding: 18px;
-      border-radius: 12px;
-      margin: 15px 0;
-      word-break: break-all;
-      border: 2px solid var(--primary);
-    }
-
-    .status {
-      margin-top: 20px;
-      font-size: 1.1rem;
-    }
-
-    .completed { color: #00ff88; }
+    body { font-family: Arial, sans-serif; background: #0f0f0f; color: #fff; text-align: center; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    button { padding: 15px 30px; font-size: 18px; margin: 15px; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-link { background: #ff9800; color: white; }
+    .btn-generate { background: #4caf50; color: white; }
+    .status { margin: 20px; padding: 15px; border-radius: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>KeyForge</h1>
-    <p class="subtitle">Complete as tarefas para gerar sua key premium</p>
+    <h1>🔑 Key System</h1>
+    <p>Complete as 2 tarefas para gerar sua key</p>
 
-    <div id="tasks">
-      <div class="task" id="task1">
-        <h3><i class="fas fa-link"></i> Tarefa 1</h3>
-        <a href="https://linkvertise.com/1457339/0" target="_blank" id="link1">
-          <button>Completar Primeira Tarefa</button>
-        </a>
-      </div>
-
-      <div class="task" id="task2">
-        <h3><i class="fas fa-link"></i> Tarefa 2</h3>
-        <a href="https://linkvertise.com/1457339/1" target="_blank" id="link2">
-          <button>Completar Segunda Tarefa</button>
-        </a>
-      </div>
+    <div id="step1">
+      <h2>Passo 1/2</h2>
+      <button class="btn-link" onclick="startTask(1)">Fazer Primeira Tarefa</button>
     </div>
 
-    <button id="generateBtn" onclick="generateKey()" disabled>🔑 Gerar Minha Key</button>
-
-    <div id="keyResult">
-      <p style="color: #00ff88; font-weight: 600;">✅ Key Gerada com Sucesso!</p>
-      <div class="key-code" id="keyCode"></div>
-      <p class="status">Válida por <strong>24 horas</strong></p>
-      <button onclick="copyKey()" style="background:#333; color:white; margin-top:15px;">📋 Copiar Key</button>
+    <div id="step2" style="display:none;">
+      <h2>Passo 2/2</h2>
+      <button class="btn-link" onclick="startTask(2)">Fazer Segunda Tarefa</button>
     </div>
+
+    <div id="generateSection" style="display:none;">
+      <h2>Tarefas concluídas!</h2>
+      <button class="btn-generate" onclick="generateKey()">Gerar Key</button>
+    </div>
+
+    <div id="keyResult" class="status" style="display:none;"></div>
   </div>
 
   <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
   <script>
-    linkvertise(1457339, {whitelist: [], blacklist: [""]});
+    const USER_ID = 1457339;
+    let completed = {1: false, 2: false};
 
-    let completedTasks = 0;
-
-    function markComplete(taskId) {
-      completedTasks++;
-      document.getElementById(taskId).style.opacity = "0.7";
-      document.getElementById(taskId).style.borderColor = "#00ff88";
-      
-      if (completedTasks >= 2) {
-        document.getElementById('generateBtn').disabled = false;
-      }
+    function startTask(task) {
+      linkvertise(USER_ID, {
+        whitelist: [],
+        blacklist: [""],
+        callback: () => {
+          completed[task] = true;
+          if (task === 1) {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          } else if (task === 2) {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('generateSection').style.display = 'block';
+          }
+        }
+      });
     }
-
-    document.getElementById('link1').addEventListener('click', () => setTimeout(() => markComplete('task1'), 2500));
-    document.getElementById('link2').addEventListener('click', () => setTimeout(() => markComplete('task2'), 2500));
 
     async function generateKey() {
-      const btn = document.getElementById('generateBtn');
-      btn.innerHTML = 'Gerando...';
-      btn.disabled = true;
+      const res = await fetch('/api/generate', { method: 'POST' });
+      const data = await res.json();
 
-      try {
-        const res = await fetch('/api/generate', { method: 'POST' });
-        const data = await res.json();
-
-        if (data.key) {
-          document.getElementById('keyCode').textContent = data.key;
-          document.getElementById('keyResult').style.display = 'block';
-          document.getElementById('tasks').style.display = 'none';
-        } else {
-          alert("Erro ao gerar key. Tente novamente.");
-        }
-      } catch (e) {
-        alert("Erro de conexão.");
+      const div = document.getElementById('keyResult');
+      if (data.success) {
+        div.innerHTML = `
+          <h2>Sua Key:</h2>
+          <h3 style="color:#4caf50; word-break:break-all;">${data.key}</h3>
+          <p>Expira em: ${data.expires}</p>
+        `;
+      } else {
+        div.innerHTML = `<p style="color:red;">Erro: ${data.error}</p>`;
       }
-
-      btn.innerHTML = '🔑 Gerar Minha Key';
-    }
-
-    function copyKey() {
-      const key = document.getElementById('keyCode').textContent;
-      navigator.clipboard.writeText(key).then(() => {
-        alert("✅ Key copiada para a área de transferência!");
-      });
+      div.style.display = 'block';
     }
   </script>
 </body>
-  </html>
+</html>
