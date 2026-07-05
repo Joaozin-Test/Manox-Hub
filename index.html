@@ -59,7 +59,7 @@
     }
 
     async function generateKey() {
-      const res = await fetch('/api/generate', { method: 'POST' });
+      const res = await fetch('/generate', { method: 'POST' });
       const data = await res.json();
 
       const div = document.getElementById('keyResult');
