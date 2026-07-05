@@ -16,7 +16,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
     // ====================== GERAR KEY ======================
-    if (path === '/generate' && request.method === 'POST') {
+    if (path === '/generate') {
       const key = 'KEY-' + Math.random().toString(36).substring(2, 15).toUpperCase();
       const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 horas
 
@@ -35,7 +35,7 @@ export default {
     }
 
     // ====================== VERIFICAR KEY (para Executor) ======================
-    if (path === '/verify' && request.method === 'POST') {
+    if (path === '/verify') {
       const { key } = await request.json();
 
       if (!key) return Response.json({ valid: false, reason: 'Key inválida' });
